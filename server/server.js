@@ -6,6 +6,9 @@ const {
 const PORT = process.env.PORT;
 const resolvers = require("./resolvers");
 const typeDefs = require("./schemaGql");
+const connection = require("./connection/config");
+
+connection()
 
 const server = new ApolloServer({
   typeDefs,
