@@ -4,15 +4,17 @@ const {
   ApolloServerPluginLandingPageGraphQLPlayground,
 } = require("apollo-server-core");
 const PORT = process.env.PORT;
-const resolvers = require("./resolvers");
-const typeDefs = require("./schemaGql");
+const resolvers = require("./resolvers/resolvers");
+const typeDefs = require("./graphql/schemaGql");
 const connection = require("./connection/config");
+const auth = require("./middlewares/auth.middleware");
 
-connection()
+connection();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: auth,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
 });
 

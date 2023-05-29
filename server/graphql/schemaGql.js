@@ -3,28 +3,42 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
   type Query {
     users: [User]
-    user(id: ID!): User
+    user(_id: ID!): User
     quotes: [Quote]
-    userQuote(id: ID!): [Quote]
+    userQuote(_id: ID!): [Quote]
   }
   type User {
-    id: ID
+    _id: ID!
     firstName: String
     lastName: String
     email: String
     password: String
     quotes: [Quote]
   }
+  type Token {
+    token: String
+  }
   type Quote {
     name: String
     by: ID
   }
+  
+
+  # all mutations types
   type Mutation {
-    signupUserDummy(newUser: UserInput!): User
+    register(newUser: UserInput!): User
+    login(loginUser: LoginInput!): Token
+    addQuote(name: String!): String
   }
+
+  # Input Data for mutations
   input UserInput {
     firstName: String!
     lastName: String!
+    email: String!
+    password: String!
+  }
+  input LoginInput {
     email: String!
     password: String!
   }
