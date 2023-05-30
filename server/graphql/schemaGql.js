@@ -16,6 +16,7 @@ const typeDefs = gql`
     quotes: [Quote]
   }
   type QuoteWithName {
+    _id:String
     name: String
     by: IdName
   }
