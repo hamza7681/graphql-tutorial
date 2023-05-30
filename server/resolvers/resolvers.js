@@ -4,6 +4,16 @@ const { tokenGenerator } = require("../utils/tokenGenerator");
 const Quote = require("../models/quoteModel");
 
 const resolvers = {
+  Query: {
+    users: async () => await User.find(),
+    quotes: async () => await Quote.find().populate("by", "_id firstName"),
+    user: async (_, { _id }) => await User.findOne({ _id }),
+    userQuote: async (_, { by }) =>
+      await User.find({ by }).populate("by", "_id firstName"),
+  },
+  User: {
+    quotes: async (ur) => await Quote.find({ by: ur._id }),
+  },
   Mutation: {
     register: async (_, { newUser }) => {
       const user = await User.findOne({ email: newUser.email });

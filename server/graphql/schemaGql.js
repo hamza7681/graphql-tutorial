@@ -4,7 +4,7 @@ const typeDefs = gql`
   type Query {
     users: [User]
     user(_id: ID!): User
-    quotes: [Quote]
+    quotes: [QuoteWithName]
     userQuote(_id: ID!): [Quote]
   }
   type User {
@@ -15,6 +15,14 @@ const typeDefs = gql`
     password: String
     quotes: [Quote]
   }
+  type QuoteWithName {
+    name: String
+    by: IdName
+  }
+  type IdName {
+    _id: String
+    firstName: String
+  }
   type Token {
     token: String
   }
@@ -22,7 +30,6 @@ const typeDefs = gql`
     name: String
     by: ID
   }
-  
 
   # all mutations types
   type Mutation {
