@@ -10,6 +10,10 @@ const resolvers = {
     user: async (_, { _id }) => await User.findOne({ _id }),
     userQuote: async (_, { by }) =>
       await User.find({ by }).populate("by", "_id firstName"),
+    myProfile: async (_, args, { userId }) => {
+      if (!userId) throw new Error("You must be logged in");
+      return await User.findOne({ _id: userId });
+    },
   },
   User: {
     quotes: async (ur) => await Quote.find({ by: ur._id }),

@@ -1,5 +1,7 @@
+import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { REGISTER_USER } from "../graphQL/mutations";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -7,11 +9,27 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const register = () => {};
+  const [register, { data, loading, error }] = useMutation(REGISTER_USER);
+
+  const registerUser = () => {
+    register({
+      variables: {
+        newUser: { firstName, lastName, email, password },
+      },
+    });
+  };
+
+  if (loading) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <>
       <div className="container">
+        {error && <div style={{ color: "red" }}>{error.message}</div>}
+        {data && data.user && (
+          <div>{data.user.firstName} is registered. Now you can login</div>
+        )}
         <div
           style={{
             display: "flex",
@@ -42,8 +60,8 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button onClick={register}>Register</button>
-          <Link to="/">Login</Link>
+          <button onClick={registerUser}>Register</button>
+          <Link to="/login">Login</Link>
         </div>
       </div>
     </>

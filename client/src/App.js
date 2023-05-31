@@ -5,10 +5,12 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import CreateQuote from "./components/CreateQuote";
 import Home from "./components/Home";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
+      <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

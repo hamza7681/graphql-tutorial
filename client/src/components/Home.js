@@ -8,6 +8,9 @@ const Home = () => {
   if (error) {
     console.log(error);
   }
+  if (data.quotes.length === 0) {
+    return <h1>No Quotes found!</h1>;
+  }
   return (
     <>
       <div className="container">

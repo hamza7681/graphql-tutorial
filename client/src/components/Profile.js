@@ -1,6 +1,15 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
+import { GET_MY_PROFILE } from "../graphQL/queries";
 
 const Profile = () => {
+  const { data, loading, error } = useQuery(GET_MY_PROFILE);
+  if (loading) {
+    return <h1>Loading</h1>;
+  }
+  if (error) {
+    console.log(error);
+  }
   return (
     <>
       <div className="container">
@@ -13,13 +22,23 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          <h1>Hamza Siddique</h1>
-          <p>hamzambf@gmail.com</p>
+          <h1>
+            {data && data.user && data.user.firstName}{" "}
+            {data && data.user && data.user.lastName}
+          </h1>
+          <p>{data && data.user && data.user.email}</p>
         </div>
-        <blockquote style={{marginTop:'60px'}} >
-            <h6>this is qoute</h6>
-            <p>--hamza</p>
-        </blockquote>
+        {data &&
+          data.user &&
+          data.user.quotes.map((val) => {
+            return (
+              <>
+                <blockquote style={{ marginTop: "60px" }}>
+                  <h6>{val.name}</h6>
+                </blockquote>
+              </>
+            );
+          })}
       </div>
     </>
   );
